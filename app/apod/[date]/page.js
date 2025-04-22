@@ -1,7 +1,7 @@
 'use client'
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 export default function page({ params }) {
 
   const router = useRouter()
@@ -9,6 +9,7 @@ export default function page({ params }) {
   const { date } = React.use(params)
   const [info, setInfo] = useState(null)
 
+  const currentDate = new Date().toJSON().slice(0, 10)
   const activeDate = new Date(date).toJSON().slice(0, 10);
 
   const prevDate = new Date(activeDate)
@@ -38,9 +39,9 @@ export default function page({ params }) {
     }
   }
 
-  // useEffect(() => {
-  //   getData()
-  // }, [])
+  useEffect(() => {
+    getData()
+  }, [])
 
   return (
     <div className="min-h-screen bg-fixed bg-no-repeat flex flex-col items-center bg-linear-to-b from-black via-indigo-900 to-purple-900 ">
@@ -62,9 +63,10 @@ export default function page({ params }) {
           </> 
         }
       </div>
-      <div>
-        <Link className="bg-blue-200" href={`/apod/${formattedPrevDate}`}>PREV</Link>
-        <Link className="bg-blue-200" href={`/apod/${formattedNextDate}`}>NEXT</Link>
+      <div className="flex flex-row text-white font-serif">
+        <Link className="mr-1 bg-black p-3 rounded-xl hover:shadow-lg hover:shadow-cyan-500/50" href={`/apod/${formattedPrevDate}`}>PREV</Link>
+        {currentDate !== activeDate && 
+        <Link className="ml-1 bg-black p-3 rounded-xl hover:shadow-lg hover:shadow-cyan-500/50" href={`/apod/${formattedNextDate}`}>NEXT</Link>}
       </div>
 
 
